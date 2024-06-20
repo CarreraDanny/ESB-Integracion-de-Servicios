@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ESB Home</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background: #FFA500;
+            color: #fff;
+            padding: 20px 0;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        header h1 {
+            margin: 0;
+            font-weight: 700;
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            background-color: #ff7f00;
+        }
+        nav ul li {
+            margin: 0 15px;
+        }
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        nav ul li a:hover {
+            background-color: #ff5700;
+            padding: 8px 15px;
+            border-radius: 5px;
+        }
+        .main {
+            padding: 20px;
+            background: #fff;
+            margin-top: 20px;
+            box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .main h2 {
+            margin-bottom: 20px;
+            font-size: 2em;
+            color: #333;
+        }
+        .services {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+        .services .card {
+            background: #fff;
+            border: 1px solid #ddd;
+            margin: 10px;
+            padding: 20px;
+            width: 30%;
+            box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .services .card h3 {
+            font-size: 1.5em;
+            color: #333;
+        }
+        .services .card p {
+            font-size: 1em;
+            color: #666;
+        }
+        .services .card a {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+            color: #fff;
+        }
+        .services .card a.btn-outline-primary {
+            background-color: #007bff;
+        }
+        .services .card a.btn-outline-success {
+            background-color: #28a745;
+        }
+        .services .card a.btn-outline-warning {
+            background-color: #ffc107;
+        }
+        footer {
+            background: #FFA500;
+            color: #fff;
+            text-align: center;
+            padding: 15px 0;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Enterprise Service Bus (ESB)</h1>
+            <nav>
+                <ul>
+                    <li><a href="/">Inicio</a></li>
+                    <li><a href="/registro">Registrarse</a></li>
+                    <li><a href="/logout">Cerrar Sesión</a></li>
+                    <li><a href="/unidades">Unidades</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <div class="container main">
+        <h2>Cooperativas de Transporte</h2>
+        <p>Contamos con una moderna flota de 130 unidades, al servicio de sus usuarios brindando confort y seguridad en todos sus destinos en el país.</p>
+        <div class="services">
+            <div class="card">
+                <h3>Rutas</h3>
+                <p>Gestionar y ver información de rutas.</p>
+                <a href="/ver_rutas" class="btn btn-outline-primary">Ver Rutas</a>
+            </div>
+            <div class="card">
+                <h3>Horarios</h3>
+                <p>Gestionar y ver información de horarios.</p>
+                <a href="/ver_horarios" class="btn btn-outline-success">Ver Horarios</a>
+            </div>
+            <div class="card">
+                <h3>Reservas</h3>
+                <p>Gestionar y ver información de reservas.</p>
+                <a href="/ver_reservas" class="btn btn-outline-warning">Crear y Ver Reservas</a>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <p>Grupo Frontera &copy; 2024</p>
+    </footer>
+</body>
+</html>

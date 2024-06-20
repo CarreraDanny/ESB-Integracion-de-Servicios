@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unidades de Transporte</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background: #FFA500;
+            color: #fff;
+            padding: 10px 0;
+            text-align: center;
+        }
+        header h1 {
+            margin: 0;
+            font-weight: 700;
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            background-color: #ff7f00;
+        }
+        nav ul li {
+            margin: 0 15px;
+        }
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+        }
+        .unit-description {
+            text-align: center;
+            padding: 20px;
+        }
+        .unit-description img {
+            width: 100%;
+            height: auto;
+            max-width: 600px;
+            margin-bottom: 20px;
+            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .unit-description img:hover {
+            transform: scale(1.05);
+            box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.5);
+        }
+        .unit-description h3 {
+            font-size: 2em;
+            color: #333;
+        }
+        .unit-description p {
+            font-size: 1.2em;
+            color: #666;
+        }
+        footer {
+            background: #FFA500;
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Nuestras Unidades</h1>
+            <nav>
+                <ul>
+                    <li><a href="/">Inicio</a></li>
+                    <li><a href="/ver_rutas">Rutas</a></li>
+                    <li><a href="/ver_horarios">Horarios</a></li>
+                    <li><a href="/ver_reservas">Reservas</a></li>
+                    <li><a href="/logout">Cerrar Sesión</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <div class="container">
+        <div class="unit-description">
+            <h3>Buses</h3>
+            <p>Contamos con una moderna flota de 130 unidades, al servicio de sus usuarios brindando confort y seguridad en todos sus destinos en el país.</p>
+            <p>Con la más recientes adquisición de 50 nuevas unidades de dos pisos iniciamos una nueva era en confort y entretenimiento, convirtiéndonos en la Cooperativa más moderna del país.</p>
+            <img src="{{ url_for('static', filename='imagenes/foto1.jpg') }}" alt="Unidad de Transporte">
+            <img src="{{ url_for('static', filename='imagenes/foto5.jpg') }}" alt="Unidad de Transporte">
+        </div>
+        <div class="unit-description">
+            <h3>CONFORT</h3>
+            <p>En el interior de cada bus encontrará la comodidad que marcará la diferencia durante el traslado a su destino. Asientos ergonómicos, reclinables, apoya pies, porta equipaje, vista panorámica y baño.</p>
+            <img src="{{ url_for('static', filename='imagenes/foto4.jpg') }}" alt="Unidad de Transporte">
+        </div>
+        <div class="unit-description">
+            <h3>TRIPULACIÓN</h3>
+            <p>Nuestros colaboradores son capacitados constantemente en servicio y atención al cliente para dar lo mejor de sí a los pasajeros durante el trayecto. No dude en buscar asistencia que con gusto lo asesoraremos de la mejor manera.</p>
+            <img src="{{ url_for('static', filename='imagenes/foto2.jpg') }}" alt="Unidad de Transporte">
+            <img src="{{ url_for('static', filename='imagenes/foto3.jpg') }}" alt="Unidad de Transporte">
+        </div>
+        <div class="unit-description">
+            <h3>ENTRETENIMIENTO</h3>
+            <p>En el interior de cada bus encontrará la comodidad que marcará la diferencia durante el traslado a su destino. Asientos ergonómicos, reclinables, apoya pies, porta equipaje, vista panorámica y baño.</p>
+            <img src="{{ url_for('static', filename='imagenes/foto6.jpg') }}" alt="Unidad de Transporte">
+            <img src="{{ url_for('static', filename='imagenes/foto7.jpg') }}" alt="Unidad de Transporte">
+        </div>
+    </div>
+    <footer>
+        <p>Grupo Frontera &copy; 2024</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ver Horarios - Servicio Felipe</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background: #FFA500;
+            color: #fff;
+            padding: 20px 0;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        header h1 {
+            margin: 0;
+            font-weight: 700;
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            background-color: #ff7f00;
+        }
+        nav ul li {
+            margin: 0 15px;
+        }
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        nav ul li a:hover {
+            background-color: #ff5700;
+            padding: 8px 15px;
+            border-radius: 5px;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+        }
+        .main {
+            padding: 20px;
+            background: #fff;
+            margin-top: 20px;
+            box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .main h2 {
+            margin-bottom: 20px;
+            font-size: 2em;
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table th, table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        table th {
+            background-color: #ff6600;
+            color: #fff;
+        }
+        table tbody tr:nth-child(even) {
+            background: #f4f4f4;
+        }
+        footer {
+            background: #ff6600;
+            color: #fff;
+            text-align: center;
+            padding: 15px 0;
+            margin-top: 30px;
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $.ajax({
+                url: "/felipe_horarios",
+                type: "GET",
+                success: function(response) {
+                    var rows = '';
+                    response.forEach(function(horario) {
+                        rows += '<tr>';
+                        rows += '<td>' + horario.ID_Horario + '</td>';
+                        rows += '<td>' + horario.Bus.ID_Bus + '</td>';
+                        rows += '<td>' + horario.Bus.NumUnidadBus + '</td>';
+                        rows += '<td>' + horario.Conductor.ID_Conductor + '</td>';
+                        rows += '<td>' + horario.Conductor.Nombre + '</td>';
+                        rows += '<td>' + horario.Dia_Semana + '</td>';
+                        rows += '<td>' + horario.Hora_Salida + '</td>';
+                        rows += '<td>' + horario.Hora_Llegada + '</td>';
+                        rows += '</tr>';
+                    });
+                    $('#horarios-table tbody').html(rows);
+                },
+                error: function(error) {
+                    console.log("Error al obtener los horarios:", error);
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Enterprise Service Bus (ESB)</h1>
+            <nav>
+                <ul>
+                    <li><a href="/">Inicio</a></li>
+                    <li><a href="/ver_rutas">Rutas</a></li>
+                    <li><a href="/ver_horarios">Horarios</a></li>
+                    <li><a href="/ver_reservas">Reservas</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <div class="container main">
+        <h2 class="text-center">Lista de Horarios - Minas</h2>
+        <table class="table table-bordered table-striped" id="horarios-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>ID Bus</th>
+                    <th>Unidad Bus</th>
+                    <th>ID Conductor</th>
+                    <th>Nombre Conductor</th>
+                    <th>Día de la Semana</th>
+                    <th>Hora de Salida</th>
+                    <th>Hora de Llegada</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Las filas se agregarán aquí mediante JavaScript -->
+            </tbody>
+        </table>
+    </div>
+    <footer>
+        <p>Grupo Frontera &copy; 2024</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ver Horarios</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background: #FFA500;
+            color: #fff;
+            padding: 20px 0;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        header h1 {
+            margin: 0;
+            font-weight: 700;
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            background-color: #ff7f00;
+        }
+        nav ul li {
+            margin: 0 15px;
+        }
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        nav ul li a:hover {
+            background-color: #ff5700;
+            padding: 8px 15px;
+            border-radius: 5px;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+        }
+        .main {
+            padding: 20px;
+            background: #fff;
+            margin-top: 20px;
+            box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .main h2 {
+            margin-bottom: 20px;
+            font-size: 2em;
+            color: #333;
+        }
+        .btn {
+            display: inline-block;
+            margin: 5px;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            cursor: pointer;
+        }
+        .btn-outline-danger {
+            background-color: #dc3545;
+        }
+        .btn-outline-success {
+            background-color: #28a745;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table th, table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        table th {
+            background-color: #ff6600;
+            color: #fff;
+        }
+        table tbody tr:nth-child(even) {
+            background: #f4f4f4;
+        }
+        footer {
+            background: #ff6600;
+            color: #fff;
+            text-align: center;
+            padding: 15px 0;
+            margin-top: 30px;
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            var allHorarios = [];
+
+            function fetchHorarios(url, callback) {
+                $.ajax({
+                    url: url,
+                    type: "GET",
+                    success: function(response) {
+                        callback(response);
+                    },
+                    error: function(error) {
+                        console.log("Error al obtener los horarios:", error);
+                    }
+                });
+            }
+
+            function processHorarios(response, source) {
+                if (source === 'python') {
+                    return response.horarios.map(function(horario) {
+                        return {
+                            ID_Horario: horario.ID_Horario,
+                            ID_Ruta: horario.ID_Ruta,
+                            ID_Bus: horario.ID_Bus,
+                            ID_Conductor: horario.ID_Conductor,
+                            Dia_Semana: horario.Dia_Semana,
+                            Hora_Salida: horario.Hora_Salida,
+                            Hora_Llegada: horario.Hora_Llegada
+                        };
+                    });
+                } else if (source === 'csharp') {
+                    return response.map(function(horario) {
+                        return {
+                            ID_Horario: horario.ID_Horario,
+                            ID_Ruta: horario.ID_Ruta,
+                            ID_Bus: horario.ID_Bus,
+                            ID_Conductor: horario.ID_Conductor,
+                            Dia_Semana: horario.Dia_Semana,
+                            Hora_Salida: horario.Hora_Salida,
+                            Hora_Llegada: horario.Hora_Llegada
+                        };
+                    });
+                } else if (source === 'felipe') {
+                    return response.map(function(horario) {
+                        return {
+                            ID_Horario: horario.ID_Horario,
+                            ID_Ruta: horario.Bus.ID_Bus,
+                            ID_Bus: horario.Bus.NumUnidadBus,
+                            ID_Conductor: horario.Conductor.Nombre,
+                            Dia_Semana: horario.Dia_Semana,
+                            Hora_Salida: horario.Hora_Salida,
+                            Hora_Llegada: horario.Hora_Llegada
+                        };
+                    });
+                }
+                return [];
+            }
+
+            function renderTable(horarios) {
+                var rows = '';
+                horarios.forEach(function(horario, index) {
+                    rows += '<tr>';
+                    rows += '<td>' + (index + 1) + '</td>';
+                    rows += '<td>' + horario.ID_Ruta + '</td>';
+                    rows += '<td>' + horario.ID_Bus + '</td>';
+                    rows += '<td>' + horario.ID_Conductor + '</td>';
+                    rows += '<td>' + horario.Dia_Semana + '</td>';
+                    rows += '<td>' + horario.Hora_Salida + '</td>';
+                    rows += '<td>' + horario.Hora_Llegada + '</td>';
+                    rows += '</tr>';
+                });
+                $('#horarios-table tbody').html(rows);
+            }
+
+            fetchHorarios("/horarios", function(response) {
+                allHorarios = allHorarios.concat(processHorarios(response, 'python'));
+                fetchHorarios("/csharp_horarios", function(response) {
+                    allHorarios = allHorarios.concat(processHorarios(response, 'csharp'));
+                    fetchHorarios("/felipe_horarios", function(response) {
+                        allHorarios = allHorarios.concat(processHorarios(response, 'felipe'));
+                        renderTable(allHorarios);
+                    });
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Enterprise Service Bus (ESB)</h1>
+            <nav>
+                <ul>
+                    <li><a href="/">Inicio</a></li>
+                    <li><a href="/ver_rutas">Rutas</a></li>
+                    <li><a href="/ver_horarios">Horarios</a></li>
+                    <li><a href="/ver_reservas">Reservas</a></li>
+                    <li><a href="/logout">Cerrar Sesión</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <div class="container main">
+        <h2 class="text-center">Lista de Horarios</h2>
+        <div class="text-center mb-3">
+            <a href="/ver_horarios_csharp" class="btn btn-outline-danger">Transportes Tac</a>
+            <a href="/ver_horarios_python" class="btn btn-primary">Trans-Esmeraldas</a>
+            <a href="/ver_horarios_felipe" class="btn btn-outline-success">Cooperativa Minas</a>
+        </div>
+        <table class="table table-bordered table-striped" id="horarios-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>ID Ruta</th>
+                    <th>ID Bus</th>
+                    <th>ID Conductor</th>
+                    <th>Día de la Semana</th>
+                    <th>Hora de Salida</th>
+                    <th>Hora de Llegada</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Las filas se agregarán aquí mediante JavaScript -->
+            </tbody>
+        </table>
+    </div>
+    <footer>
+        <p>Grupo Frontera &copy; 2024</p>
+    </footer>
+</body>
+</html>

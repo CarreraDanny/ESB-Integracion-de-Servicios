@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ver Reservas</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background: #FFA500;
+            color: #fff;
+            padding: 20px 0;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        header h1 {
+            margin: 0;
+            font-weight: 700;
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            background-color: #ff7f00;
+        }
+        nav ul li {
+            margin: 0 15px;
+        }
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        nav ul li a:hover {
+            background-color: #ff5700;
+            padding: 8px 15px;
+            border-radius: 5px;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+        }
+        .main {
+            padding: 20px;
+            background: #fff;
+            margin-top: 20px;
+            box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .main h2 {
+            margin-bottom: 20px;
+            font-size: 2em;
+            color: #333;
+        }
+        .text-right {
+            text-align: right;
+        }
+        .btn {
+            display: inline-block;
+            margin: 5px;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            cursor: pointer;
+        }
+        .btn-outline-success {
+            background-color: #28a745;
+        }
+        .btn-outline-warning {
+            background-color: #ffc107;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table th, table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        table th {
+            background-color: #ff6600;
+            color: #fff;
+        }
+        table tbody tr:nth-child(even) {
+            background: #f4f4f4;
+        }
+        footer {
+            background: #ff6600;
+            color: #fff;
+            text-align: center;
+            padding: 15px 0;
+            margin-top: 30px;
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            var allReservas = [];
+
+            function fetchReservas(url, callback) {
+                $.ajax({
+                    url: url,
+                    type: "GET",
+                    success: function(response) {
+                        callback(response);
+                    },
+                    error: function(error) {
+                        console.log("Error al obtener las reservas:", error);
+                    }
+                });
+            }
+
+            function processReservas(response, source) {
+                if (source === 'python') {
+                    return response.reservas.map(function(reserva) {
+                        return {
+                            ID_Reserva: reserva.ID_Reserva,
+                            ID_Horario: reserva.ID_Horario,
+                            ID_Pasajero: reserva.ID_Pasajero,
+                            Numero_Asientos_Reservados: reserva.Numero_Asientos_Reservados,
+                            Estado_Reserva: reserva.Estado_Reserva,
+                            Fecha_Reserva: reserva.Fecha_Reserva
+                        };
+                    });
+                } else if (source === 'csharp') {
+                    return response.map(function(reserva) {
+                        return {
+                            ID_Reserva: reserva.ID_Reserva,
+                            ID_Horario: reserva.ID_Horario,
+                            ID_Pasajero: reserva.ID_Pasajero,
+                            Numero_Asientos_Reservados: reserva.Numero_Asientos_Reservados,
+                            Estado_Reserva: reserva.Estado_Reserva,
+                            Fecha_Reserva: reserva.Fecha_Reserva
+                        };
+                    });
+                } else if (source === 'felipe') {
+                    return response.map(function(reserva) {
+                        return {
+                            ID_Reserva: reserva.ID_Reserva,
+                            ID_Horario: reserva.ID_Horario,
+                            ID_Pasajero: reserva.ID_Pasajero,
+                            Numero_Asientos_Reservados: reserva.Numero_Asientos_Reservados,
+                            Estado_Reserva: reserva.Estado_Reserva,
+                            Fecha_Reserva: reserva.Fecha_Reserva
+                        };
+                    });
+                }
+                return [];
+            }
+
+            function renderTable(reservas) {
+                var rows = '';
+                reservas.forEach(function(reserva, index) {
+                    var fechaReserva = new Date(reserva.Fecha_Reserva);
+                    var opcionesFecha = { year: 'numeric', month: 'long', day: 'numeric' };
+                    var fechaFormateada = fechaReserva.toLocaleDateString('es-ES', opcionesFecha);
+
+                    rows += '<tr>';
+                    rows += '<td>' + (index + 1) + '</td>';
+                    rows += '<td>' + reserva.ID_Horario + '</td>';
+                    rows += '<td>' + reserva.ID_Pasajero + '</td>';
+                    rows += '<td>' + reserva.Numero_Asientos_Reservados + '</td>';
+                    rows += '<td>' + reserva.Estado_Reserva + '</td>';
+                    rows += '<td>' + fechaFormateada + '</td>';
+                    rows += '</tr>';
+                });
+                $('#reservas-table tbody').html(rows);
+            }
+
+            fetchReservas("/reservas", function(response) {
+                allReservas = allReservas.concat(processReservas(response, 'python'));
+                fetchReservas("/csharp_reservas", function(response) {
+                    allReservas = allReservas.concat(processReservas(response, 'csharp'));
+                    fetchReservas("/csharpfelipereservas", function(response) {
+                        allReservas = allReservas.concat(processReservas(response, 'felipe'));
+                        renderTable(allReservas);
+                    });
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Enterprise Service Bus (ESB)</h1>
+            <nav>
+                <ul>
+                    <li><a href="/">Inicio</a></li>
+                    <li><a href="/ver_rutas">Rutas</a></li>
+                    <li><a href="/ver_horarios">Horarios</a></li>
+                    <li><a href="/ver_reservas">Reservas</a></li>
+                    <li><a href="/logout">Cerrar Sesión</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <div class="container main">
+        <h2 class="text-center">Lista de Reservas Disponibles</h2>
+        <div class="text-right mb-3">
+            <a href="/ver_reservas_csharp" class="btn btn-outline-success">Transportes Tac</a>
+            <a href="/ver_reservas_python" class="btn btn-outline-warning">Trans-Esmeraldas</a>
+            <a href="/ver_reservas_felipe" class="btn btn-primary">Cooperativa Minas</a>
+        </div>
+        <table class="table table-bordered table-striped" id="reservas-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>ID Horario</th>
+                    <th>ID Pasajero</th>
+                    <th>Asientos Reservados</th>
+                    <th>Estado</th>
+                    <th>Fecha</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Las filas se agregarán aquí mediante JavaScript -->
+            </tbody>
+        </table>
+    </div>
+    <footer>
+        <p>Grupo Frontera &copy; 2024</p>
+    </footer>
+</body>
+</html>

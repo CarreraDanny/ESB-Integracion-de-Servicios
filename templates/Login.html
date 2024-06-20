@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="stylesheet" type="text/css" href="../static/Imagenes/estilolog.css">
+    <!-- Agrega la biblioteca de Font Awesome para obtener los iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        .input-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            width: 100%;
+        }
+
+        .input-container .fa {
+            position: absolute;
+            left: 10px;
+            width: 24px; /* Ajuste del tamaño del icono */
+            height: 24px; /* Ajuste del tamaño del icono */
+        }
+
+        .input-container input {
+            width: calc(100% - 40px);
+            padding: 10px 10px 10px 40px; /* Espacio suficiente para el icono */
+            box-sizing: border-box;
+            margin-left: 30px; /* Ajuste del espacio entre el ícono y el campo de entrada */
+        }
+        
+        .input-container button {
+            position: absolute;
+            right: 10px;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<div class="main">
+    <div class="container">
+        <center>
+            <div class="middle">
+                <div id="login">
+                    <form action="{{ url_for('login') }}" method="POST">
+                        <fieldset class="clearfix">
+                            <div class="input-container">
+                                <i class="fas fa-user"></i>
+                                <input type="text" name="email" placeholder="Correo" required>
+                            </div>
+                            <div class="input-container password-container">
+                                <i class="fas fa-lock"></i>
+                                <input id="password" type="password" name="password" placeholder="Contraseña" required>
+                                <button type="button" onclick="togglePasswordVisibility()">
+                                    <i id="togglePassword" class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                            <div>
+                                <span style="width:48%; text-align:left; display: inline-block;">
+                                    <a class="small-text" href="{{ url_for('registro') }}">¿No tienes cuenta? Registrarse</a>
+                                </span>
+                                <span style="width:50%; text-align:right; display: inline-block;">
+                                    <input type="submit" value="Sign In">
+                                </span>
+                            </div>
+                        </fieldset>
+                        <div class="clearfix"></div>
+                    </form>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="logo">LOGIN
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </center>
+    </div>
+</div>
+
+<script>
+    function togglePasswordVisibility() {
+        var passwordField = document.getElementById("password");
+        var toggleIcon = document.getElementById("togglePassword");
+        
+        if (passwordField.type === "password") {
+            passwordField.type = "text";
+            toggleIcon.className = "fas fa-eye-slash";
+        } else {
+            passwordField.type = "password";
+            toggleIcon.className = "fas fa-eye";
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        var error = "{{ error }}";
+        if (error) {
+            alert(error);
+        }
+    });
+</script>
+</body>
+</html>

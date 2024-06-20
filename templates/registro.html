@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Registro</title>
+    <!-- Enlace al archivo de estilos CSS -->
+    <link rel="stylesheet" type="text/css" href="../static/Imagenes/estiloregistro.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <div class="main">
+        <div class="formulario-registro">
+            <div class="middle">
+                <div class="formulario-header logo">
+                    <h3 style="margin: 0;">Registrarse</h3>
+                </div>
+                <div class="formulario-body">
+                    <form id="formularioRegistro" action="{{ url_for('registro') }}" method="post">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Nombre" name="nombre" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Apellido" name="apellido" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" class="form-control" placeholder="Correo" name="correo" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="password" class="form-control" placeholder="Contraseña" name="contrasena" id="contrasena" required>
+                            <div class="input-group-append">
+                                <span class="input-group-text" id="eye-icon" onclick="togglePasswordVisibility(this)">
+                                    <i class="fa fa-eye"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <select class="form-control" name="rol" required>
+                                <option value="Cliente">Cliente</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Registrar" class="btn">
+                        </div>
+                        <div class="form-group">
+                            {% if success %}
+                                <p class="text-success">{{ success }}</p>
+                            {% endif %}
+                        </div>
+                        <div class="form-group">
+                            {% if error %}
+                                <p class="text-danger">{{ error }}</p>
+                            {% endif %}
+                        </div>
+                    </form>
+                </div>
+                <div class="formulario-footer">
+                    <div class="d-flex justify-content-center links">
+                        <strong> ¿Ya tienes una cuenta? <a href="{{ url_for('login') }}">    Iniciar Sesión</a></strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function togglePasswordVisibility(icon) {
+            var passwordInput = document.getElementById("contrasena");
+            icon.removeEventListener("click", togglePasswordVisibility);
+
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+                icon.innerHTML = '<i class="fa fa-eye-slash"></i>';
+            } else {
+                passwordInput.type = "password";
+                icon.innerHTML = '<i class="fa fa-eye"></i>';
+            }
+        }
+        document.getElementById('formularioRegistro').addEventListener('submit', function(event) {
+            var correo = document.getElementById('correo').value;
+            var regex = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
+
+            if (!regex.test(correo) || correo.endsWith('.')) {
+                alert('Ingrese una dirección de correo electrónico válida');
+                event.preventDefault();
+            }
+        });
+        document.getElementById('formularioRegistro').addEventListener('submit', function(event) {
+            var form = document.getElementById('formularioRegistro');
+            var inputs = form.querySelectorAll('input, select');
+
+            for (var i = 0; i < inputs.length; i++) {
+                if (!inputs[i].value) {
+                    alert('Por favor, complete todos los campos obligatorios');
+                    event.preventDefault();
+                    return;
+                }
+            }
+        });
+    </script>
+</body>
+</html>

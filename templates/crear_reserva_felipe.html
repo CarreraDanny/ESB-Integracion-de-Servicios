@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Reserva - Nuevo Servicio C#</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background: #FFA500;
+            color: #fff;
+            padding: 20px 0;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        header h1 {
+            margin: 0;
+            font-weight: 700;
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            background-color: #ff7f00;
+        }
+        nav ul li {
+            margin: 0 15px;
+        }
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        nav ul li a:hover {
+            background-color: #ff5700;
+            padding: 8px 15px;
+            border-radius: 5px;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+        }
+        .main {
+            padding: 20px;
+            background: #fff;
+            margin-top: 20px;
+            box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .main h2 {
+            margin-bottom: 20px;
+            font-size: 2em;
+            color: #333;
+        }
+        .form-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+        .form-group label {
+            display: block;
+            font-weight: bold;
+        }
+        .form-group input, .form-group select {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .btn {
+            background-color: #242830;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .btn:hover {
+            background-color: #1f263f;
+        }
+        footer {
+            background: #ff6600;
+            color: #fff;
+            text-align: center;
+            padding: 15px 0;
+            margin-top: 30px;
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('#crearReservaForm').submit(function(event){
+                event.preventDefault();
+
+                var reservaData = {
+                    ID_Horario: $('#ID_Horario').val(),
+                    ID_Pasajero: $('#ID_Pasajero').val(),
+                    Numero_Asientos_Reservados: $('#Numero_Asientos_Reservados').val(),
+                    Estado_Reserva: $('#Estado_Reserva').val(),
+                    Fecha_Reserva: $('#Fecha_Reserva').val()
+                };
+
+                $.ajax({
+                    url: '/crear_reserva_felipe',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(reservaData),
+                    success: function(response) {
+                        alert('Reserva creada exitosamente');
+                        window.location.href = '/ver_reservas_felipe';
+                    },
+                    error: function(error) {
+                        alert('Error al crear la reserva: ' + error.responseJSON.error);
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Enterprise Service Bus (ESB)</h1>
+            <nav>
+                <ul>
+                    <li><a href="/">Inicio</a></li>
+                    <li><a href="/ver_rutas">Rutas</a></li>
+                    <li><a href="/ver_horarios">Horarios</a></li>
+                    <li><a href="/ver_reservas">Reservas</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <div class="container main">
+        <h2 class="text-center">Reservar - Cooperativa Minas</h2>
+        <form id="crearReservaForm">
+            <div class="form-group">
+                <label for="ID_Horario">ID Horario:</label>
+                <input type="number" class="form-control" id="ID_Horario" name="ID_Horario" required>
+            </div>
+            <div class="form-group">
+                <label for="ID_Pasajero">ID Pasajero:</label>
+                <input type="number" class="form-control" id="ID_Pasajero" name="ID_Pasajero" required>
+            </div>
+            <div class="form-group">
+                <label for="Numero_Asientos_Reservados">Número de Asientos Reservados:</label>
+                <input type="number" class="form-control" id="Numero_Asientos_Reservados" name="Numero_Asientos_Reservados" required>
+            </div>
+            <div class="form-group">
+                <label for="Estado_Reserva">Estado de la Reserva:</label>
+                <select class="form-control" id="Estado_Reserva" name="Estado_Reserva" required>
+                    <option value="Confirmado">Confirmado</option>
+                    <option value="Pagado">Pagado</option>
+                    <option value="Pendiente">Pendiente</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="Fecha_Reserva">Fecha de la Reserva:</label>
+                <input type="date" class="form-control" id="Fecha_Reserva" name="Fecha_Reserva" required>
+            </div>
+            <button type="submit" class="btn">Crear Reserva</button>
+        </form>
+    </div>
+    <footer>
+        <p>Grupo Frontera &copy; 2024</p>
+    </footer>
+</body>
+</html>
